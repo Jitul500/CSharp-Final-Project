@@ -94,6 +94,12 @@
     <Compile Include="channels.Designer.cs">
       <DependentUpon>channels.cs</DependentUpon>
     </Compile>
+    <Compile Include="DateTimePickerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DateTimePickerForm.Designer.cs">
+      <DependentUpon>DateTimePickerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FacultyMainPage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -195,6 +201,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="channels.resx">
       <DependentUpon>channels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DateTimePickerForm.resx">
+      <DependentUpon>DateTimePickerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FacultyMainPage.resx">
       <DependentUpon>FacultyMainPage.cs</DependentUpon>

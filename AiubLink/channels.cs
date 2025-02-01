@@ -18,6 +18,8 @@ namespace AiubLink
         private Form previousForm;
         private string userID;
         private string role;
+        string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=E:\CS Final Project\AiubLink\DataBase\AiubLink.mdf;Integrated Security=True;Connect Timeout=30;Encrypt=false";
+
         public channels(Form previousForm, string userID, string role)
         {
             InitializeComponent();
@@ -47,8 +49,7 @@ namespace AiubLink
         private void LoadChannels()
         {
             // Database connection string
-            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=E:\CS Final Project\AiubLink\DataBase\AiubLink.mdf;Integrated Security=True;Connect Timeout=30;Encrypt=false";
-
+            
             string query;
 
             // Check the role and build the appropriate query
@@ -112,6 +113,13 @@ namespace AiubLink
             }
 
             string selectedChannel = checkedListBox.SelectedItem.ToString();
+            string channelId = GetChannelIdByName(selectedChannel);
+
+            if (string.IsNullOrEmpty(channelId))
+            {
+                MessageBox.Show("Unable to find ChannelID for the selected channel.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             if (role == "Faculty")
             {
@@ -126,7 +134,7 @@ namespace AiubLink
                 if (HasActiveAssignment(selectedChannel))
                 {
                     // Open the AssignmentUpload form for students
-                    AssignmentUpload assignmentUploadForm = new AssignmentUpload(this);
+                    AssignmentUpload assignmentUploadForm = new AssignmentUpload(this, userID, channelId);
                     assignmentUploadForm.Show();
                     this.Hide();
                 }
@@ -135,6 +143,36 @@ namespace AiubLink
                     MessageBox.Show("No active assignment for this channel.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
+        }
+
+        private string GetChannelIdByName(string channelName)
+        {
+            string channelId = null;
+            string query = "SELECT ChannelID FROM Channels WHERE ChannelName = @ChannelName";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@ChannelName", channelName);
+
+                        object result = command.ExecuteScalar();
+                        if (result != null)
+                        {
+                            channelId = result.ToString();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error fetching ChannelID: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+            return channelId;
         }
 
         private bool HasActiveAssignment(string channelName)

@@ -36,6 +36,7 @@
             this.ChannelComboBox = new System.Windows.Forms.ComboBox();
             this.AssignmentsDataGridView = new System.Windows.Forms.DataGridView();
             this.exitbutton = new System.Windows.Forms.Button();
+            this.DueTimeDateTimePicker = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.SubmissionsDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.AssignmentsDataGridView)).BeginInit();
             this.SuspendLayout();
@@ -53,6 +54,7 @@
             this.SubmissionsDataGridView.RowTemplate.Height = 24;
             this.SubmissionsDataGridView.Size = new System.Drawing.Size(622, 532);
             this.SubmissionsDataGridView.TabIndex = 0;
+            this.SubmissionsDataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.SubmissionsDataGridView_CellClick);
             // 
             // DescriptionTextBox
             // 
@@ -105,6 +107,7 @@
             this.AssignmentsDataGridView.RowTemplate.Height = 24;
             this.AssignmentsDataGridView.Size = new System.Drawing.Size(627, 532);
             this.AssignmentsDataGridView.TabIndex = 12;
+            this.AssignmentsDataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.ExtendTimeButton_Click);
             // 
             // exitbutton
             // 
@@ -120,12 +123,20 @@
             this.exitbutton.UseVisualStyleBackColor = false;
             this.exitbutton.Click += new System.EventHandler(this.exitbutton_Click);
             // 
+            // DueTimeDateTimePicker
+            // 
+            this.DueTimeDateTimePicker.Location = new System.Drawing.Point(548, 103);
+            this.DueTimeDateTimePicker.Name = "DueTimeDateTimePicker";
+            this.DueTimeDateTimePicker.Size = new System.Drawing.Size(272, 22);
+            this.DueTimeDateTimePicker.TabIndex = 14;
+            // 
             // AssignmentRetrive
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkTurquoise;
             this.ClientSize = new System.Drawing.Size(1280, 720);
+            this.Controls.Add(this.DueTimeDateTimePicker);
             this.Controls.Add(this.exitbutton);
             this.Controls.Add(this.AssignmentsDataGridView);
             this.Controls.Add(this.ChannelComboBox);
@@ -155,5 +166,6 @@
         private System.Windows.Forms.ComboBox ChannelComboBox;
         private System.Windows.Forms.DataGridView AssignmentsDataGridView;
         private System.Windows.Forms.Button exitbutton;
+        private System.Windows.Forms.DateTimePicker DueTimeDateTimePicker;
     }
 }
