@@ -125,7 +125,7 @@ namespace AiubLink
 
         private void Regbutton_Click(object sender, EventArgs e)
         {
-            GradeUpload gradeUpload = new GradeUpload(this);
+            GradeUpload gradeUpload = new GradeUpload(this,facultyUserID);
             gradeUpload.Show();
             this.Hide();
         }

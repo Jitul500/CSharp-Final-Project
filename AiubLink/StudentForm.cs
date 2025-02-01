@@ -88,8 +88,10 @@ namespace UniversityRegistrationSystem
         private void InitializeCourseDataGridView()
         {
             coursedataGridView.Columns.Clear();
+
             coursedataGridView.Columns.Add("SemesterNumber", "Semester Number");
             coursedataGridView.Columns.Add("CourseName", "Course Name");
+            coursedataGridView.Columns.Add("CGPA", "CGPA");
 
             // Add Delete button column
             DataGridViewButtonColumn deleteButtonColumn = new DataGridViewButtonColumn();
@@ -102,6 +104,7 @@ namespace UniversityRegistrationSystem
             coursedataGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             coursedataGridView.CellClick += CoursedataGridView_CellClick;
         }
+
 
         private void LoadCourses()
         {
@@ -132,15 +135,18 @@ namespace UniversityRegistrationSystem
         private void LoadRegisteredCourses()
         {
             coursedataGridView.Rows.Clear();
+
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 con.Open();
-                string query = @"SELECT s.SemesterNumber, c.CourseName 
-                 FROM Registrations r
-                 INNER JOIN Courses c ON r.CourseID = c.CourseID
-                 INNER JOIN Semesters s ON r.SemesterID = s.SemesterID
-                 WHERE r.SerialNo = @serialNo
-                 ORDER BY s.SemesterNumber";
+                string query = @"
+            SELECT s.SemesterNumber, c.CourseName, r.CGPA
+            FROM Registrations r
+            INNER JOIN Courses c ON r.CourseID = c.CourseID
+            INNER JOIN Semesters s ON r.SemesterID = s.SemesterID
+            WHERE r.SerialNo = @serialNo
+            ORDER BY s.SemesterNumber";
+
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@serialNo", serialNo);
@@ -148,12 +154,17 @@ namespace UniversityRegistrationSystem
                     {
                         while (reader.Read())
                         {
-                            coursedataGridView.Rows.Add(reader["SemesterNumber"].ToString(), reader["CourseName"].ToString());
+                            string semesterNumber = reader["SemesterNumber"].ToString();
+                            string courseName = reader["CourseName"].ToString();
+                            string cgpa = reader["CGPA"] != DBNull.Value ? reader["CGPA"].ToString() : "N/A";
+
+                            coursedataGridView.Rows.Add(semesterNumber, courseName, cgpa);
                         }
                     }
                 }
             }
         }
+
 
         private void CoursedataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -188,6 +199,49 @@ namespace UniversityRegistrationSystem
                 {
                     con.Open();
 
+                    // Check if this is the first semester or a subsequent semester
+                    bool isFirstSemester = currentSemester == 1;
+
+                    // If it's not the first semester, check CGPA for each selected course
+                    if (!isFirstSemester)
+                    {
+                        foreach (var course in coursecheckedListBox.CheckedItems)
+                        {
+                            // Check if the course has already been registered in the previous semester (from coursedataGridView)
+                            bool isAlreadyRegistered = false;
+                            foreach (DataGridViewRow row in coursedataGridView.Rows)
+                            {
+                                if (row.Cells["CourseName"].Value.ToString() == course.ToString())
+                                {
+                                    isAlreadyRegistered = true;
+                                    break;
+                                }
+                            }
+
+                            // If the course is already registered, check if the CGPA is available
+                            if (isAlreadyRegistered)
+                            {
+                                string checkCgpaQuery = "SELECT CGPA FROM Registrations r INNER JOIN Courses c ON r.CourseID = c.CourseID WHERE r.SerialNo = @serialNo AND c.CourseName = @courseName";
+                                object cgpaValue;
+
+                                using (SqlCommand cmd = new SqlCommand(checkCgpaQuery, con))
+                                {
+                                    cmd.Parameters.AddWithValue("@serialNo", serialNo);
+                                    cmd.Parameters.AddWithValue("@courseName", course.ToString());
+                                    cgpaValue = cmd.ExecuteScalar();
+                                }
+
+                                if (cgpaValue == null || cgpaValue == DBNull.Value)
+                                {
+                                    MessageBox.Show($"Cannot register for the next semester. Course '{course}' has no CGPA recorded.",
+                                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    return;
+                                }
+                            }
+                        }
+                    }
+
+                    // Insert new semester
                     string insertSemesterQuery = "INSERT INTO Semesters (SemesterNumber, SerialNo) OUTPUT INSERTED.SemesterID VALUES (@semesterNumber, @serialNo)";
                     int semesterId;
 
@@ -198,6 +252,7 @@ namespace UniversityRegistrationSystem
                         semesterId = (int)semesterCmd.ExecuteScalar();
                     }
 
+                    // Register courses
                     string registerQuery = "INSERT INTO Registrations (SerialNo, CourseID, SemesterID) VALUES (@serialNo, @courseID, @semesterID)";
                     foreach (var course in coursecheckedListBox.CheckedItems)
                     {
@@ -230,6 +285,9 @@ namespace UniversityRegistrationSystem
                 MessageBox.Show("Error during registration: " + ex.Message);
             }
         }
+
+
+
 
         private void exitbutton_Click(object sender, EventArgs e)
         {
