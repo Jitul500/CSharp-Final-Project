@@ -102,6 +102,14 @@ namespace AiubLink
             if (e.RowIndex >= 0 && pastdataGridView.Columns[e.ColumnIndex].Name == "Edit")
             {
                 string submissionID = pastdataGridView.Rows[e.RowIndex].Cells["SubmissionID"].Value.ToString();
+                string assignmentID = pastdataGridView.Rows[e.RowIndex].Cells["AssignmentID"].Value.ToString();
+
+                // Check if the due time has expired before allowing re-upload
+                if (IsDueTimeExpired(assignmentID))
+                {
+                    MessageBox.Show("Assignment cannot be reuploaded. Due time expired.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
                 OpenFileDialog openFileDialog = new OpenFileDialog();
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -117,9 +125,9 @@ namespace AiubLink
         private void UpdateSubmission(string submissionID, string newFilePath, byte[] fileData)
         {
             string query = @"
-                UPDATE Submissions 
-                SET FilePath = @FilePath, FileData = @FileData 
-                WHERE SubmissionID = @SubmissionID";
+        UPDATE Submissions 
+        SET FilePath = @FilePath, FileData = @FileData 
+        WHERE SubmissionID = @SubmissionID";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -135,7 +143,8 @@ namespace AiubLink
                         command.ExecuteNonQuery();
                         MessageBox.Show("Assignment reuploaded successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        LoadSubmittedAssignments(); // Refresh DataGridView
+                        // Refresh DataGridView to show updated data
+                        LoadSubmittedAssignments();
                     }
                 }
                 catch (Exception ex)
