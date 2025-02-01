@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CalendarSystem;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -126,6 +127,13 @@ namespace AiubLink
         {
             GradeUpload gradeUpload = new GradeUpload(this);
             gradeUpload.Show();
+            this.Hide();
+        }
+
+        private void calenderbutton_Click(object sender, EventArgs e)
+        {
+            CalendarForm calendarForm = new CalendarForm(this);
+            calendarForm.Show();
             this.Hide();
         }
     }

@@ -33,7 +33,7 @@ namespace AiubLink
                 SELECT A.AssignmentID, A.Description 
                 FROM Assignments A
                 WHERE A.IsActive = 1 
-                AND A.ChannelID IN (SELECT ChannelID FROM ChannelStudents WHERE StudentID = @UserID)
+                AND A.ChannelID = @ChannelID
                 AND A.AssignmentID NOT IN (SELECT AssignmentID FROM Submissions WHERE UserID = @UserID)";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -44,6 +44,7 @@ namespace AiubLink
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@UserID", userID);
+                        command.Parameters.AddWithValue("@ChannelID", channelID);
                         assignmentComboBox.Items.Clear();
 
                         using (SqlDataReader reader = command.ExecuteReader())
@@ -170,6 +171,13 @@ namespace AiubLink
                 return;
             }
 
+            // Check if the due time has expired
+            if (IsDueTimeExpired(assignmentID))
+            {
+                MessageBox.Show("Assignment cannot be uploaded. Due time expired.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             byte[] fileData = File.ReadAllBytes(filePath);
 
             string query = @"
@@ -207,7 +215,35 @@ namespace AiubLink
             }
         }
 
+        private bool IsDueTimeExpired(string assignmentID)
+        {
+            string query = "SELECT DueTime FROM Assignments WHERE AssignmentID = @AssignmentID";
 
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@AssignmentID", assignmentID);
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                DateTime dueTime = reader.GetDateTime(0);
+                                return DateTime.Now > dueTime;
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error checking due time: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            return false;
+        }
 
         private void LoadSubmittedAssignments()
         {

@@ -180,37 +180,43 @@
             // 
             // INFObutton
             // 
-            this.INFObutton.Location = new System.Drawing.Point(45, 28);
+            this.INFObutton.BackColor = System.Drawing.Color.Cyan;
+            this.INFObutton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.INFObutton.Location = new System.Drawing.Point(45, 137);
             this.INFObutton.Name = "INFObutton";
             this.INFObutton.Size = new System.Drawing.Size(134, 53);
             this.INFObutton.TabIndex = 10;
             this.INFObutton.Text = "Info";
-            this.INFObutton.UseVisualStyleBackColor = true;
+            this.INFObutton.UseVisualStyleBackColor = false;
             this.INFObutton.Click += new System.EventHandler(this.INFObutton_Click);
             // 
             // Channelbutton
             // 
-            this.Channelbutton.Location = new System.Drawing.Point(45, 106);
+            this.Channelbutton.BackColor = System.Drawing.Color.Cyan;
+            this.Channelbutton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Channelbutton.Location = new System.Drawing.Point(45, 217);
             this.Channelbutton.Name = "Channelbutton";
             this.Channelbutton.Size = new System.Drawing.Size(134, 53);
             this.Channelbutton.TabIndex = 9;
             this.Channelbutton.Text = "Channels";
-            this.Channelbutton.UseVisualStyleBackColor = true;
+            this.Channelbutton.UseVisualStyleBackColor = false;
             this.Channelbutton.Click += new System.EventHandler(this.Channelbutton_Click);
             // 
             // Regbutton
             // 
-            this.Regbutton.Location = new System.Drawing.Point(45, 188);
+            this.Regbutton.BackColor = System.Drawing.Color.Aqua;
+            this.Regbutton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Regbutton.Location = new System.Drawing.Point(45, 290);
             this.Regbutton.Name = "Regbutton";
             this.Regbutton.Size = new System.Drawing.Size(134, 53);
             this.Regbutton.TabIndex = 8;
-            this.Regbutton.Text = "Registration";
-            this.Regbutton.UseVisualStyleBackColor = true;
+            this.Regbutton.Text = "Grade Upload";
+            this.Regbutton.UseVisualStyleBackColor = false;
             this.Regbutton.Click += new System.EventHandler(this.Regbutton_Click);
             // 
             // panel2
             // 
-            this.panel2.BackColor = System.Drawing.Color.Orange;
+            this.panel2.BackColor = System.Drawing.Color.DimGray;
             this.panel2.Controls.Add(this.INFObutton);
             this.panel2.Controls.Add(this.Channelbutton);
             this.panel2.Controls.Add(this.Regbutton);
@@ -222,20 +228,23 @@
             // 
             // calenderbutton
             // 
-            this.calenderbutton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.calenderbutton.Location = new System.Drawing.Point(45, 272);
+            this.calenderbutton.BackColor = System.Drawing.Color.Cyan;
+            this.calenderbutton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.calenderbutton.Location = new System.Drawing.Point(45, 369);
             this.calenderbutton.Name = "calenderbutton";
             this.calenderbutton.Size = new System.Drawing.Size(134, 50);
             this.calenderbutton.TabIndex = 5;
             this.calenderbutton.Text = "Calender";
-            this.calenderbutton.UseVisualStyleBackColor = true;
+            this.calenderbutton.UseVisualStyleBackColor = false;
+            this.calenderbutton.Click += new System.EventHandler(this.calenderbutton_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.label1.BackColor = System.Drawing.Color.DimGray;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 28.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(440, 12);
+            this.label1.ForeColor = System.Drawing.Color.Cyan;
+            this.label1.Location = new System.Drawing.Point(473, 32);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(417, 54);
             this.label1.TabIndex = 0;
@@ -243,12 +252,12 @@
             // 
             // exitbutton
             // 
-            this.exitbutton.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.exitbutton.BackColor = System.Drawing.Color.DimGray;
             this.exitbutton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("exitbutton.BackgroundImage")));
             this.exitbutton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.exitbutton.FlatAppearance.BorderSize = 0;
             this.exitbutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.exitbutton.Location = new System.Drawing.Point(1233, 16);
+            this.exitbutton.Location = new System.Drawing.Point(1228, 32);
             this.exitbutton.Name = "exitbutton";
             this.exitbutton.Size = new System.Drawing.Size(44, 41);
             this.exitbutton.TabIndex = 4;
@@ -257,6 +266,7 @@
             // 
             // infopanel
             // 
+            this.infopanel.BackColor = System.Drawing.Color.LightCyan;
             this.infopanel.Controls.Add(this.profilepictureBox);
             this.infopanel.Controls.Add(this.doblabel);
             this.infopanel.Controls.Add(this.emaillabel);
@@ -269,31 +279,31 @@
             this.infopanel.Controls.Add(this.sidlabel);
             this.infopanel.Controls.Add(this.plabel);
             this.infopanel.Controls.Add(this.nlabel);
-            this.infopanel.Location = new System.Drawing.Point(193, 68);
+            this.infopanel.Location = new System.Drawing.Point(193, 103);
             this.infopanel.Name = "infopanel";
-            this.infopanel.Size = new System.Drawing.Size(1090, 649);
+            this.infopanel.Size = new System.Drawing.Size(1090, 614);
             this.infopanel.TabIndex = 11;
             this.infopanel.Paint += new System.Windows.Forms.PaintEventHandler(this.infopanel_Paint);
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.panel1.BackColor = System.Drawing.Color.DimGray;
             this.panel1.Controls.Add(this.Backbutton);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.exitbutton);
             this.panel1.Location = new System.Drawing.Point(-4, -7);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1304, 75);
+            this.panel1.Size = new System.Drawing.Size(1304, 112);
             this.panel1.TabIndex = 9;
             // 
             // Backbutton
             // 
-            this.Backbutton.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.Backbutton.BackColor = System.Drawing.Color.DimGray;
             this.Backbutton.FlatAppearance.BorderSize = 0;
             this.Backbutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Backbutton.Font = new System.Drawing.Font("Century Gothic", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Backbutton.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.Backbutton.Location = new System.Drawing.Point(16, 19);
+            this.Backbutton.Location = new System.Drawing.Point(16, 32);
             this.Backbutton.Name = "Backbutton";
             this.Backbutton.Size = new System.Drawing.Size(110, 37);
             this.Backbutton.TabIndex = 5;
@@ -307,9 +317,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.ClientSize = new System.Drawing.Size(1280, 720);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.infopanel);
-            this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FacultyMainPage";

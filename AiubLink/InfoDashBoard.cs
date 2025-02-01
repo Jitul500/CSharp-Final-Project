@@ -1,27 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace AiubLink
 {
     public partial class InfoDashBoard : Form
     {
-
         private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=E:\CS Final Project\AiubLink\DataBase\AiubLink.mdf;Integrated Security=True;Connect Timeout=30;Encrypt=false";
         private string userRole;
+
         public InfoDashBoard(string role)
         {
             InitializeComponent();
             userRole = role;
-            if(userRole == "Student")
+            if (userRole == "Student")
             {
                 studentdetailslabel.Text = "Student Details";
                 label2.Text = "Search By Student ID :";
@@ -33,124 +29,19 @@ namespace AiubLink
             }
         }
 
-        
-
         private void exitbutton_Click(object sender, EventArgs e)
         {
-                AdminMainPage adminMainPage = new AdminMainPage();
-                adminMainPage.Show();
-                this.Hide(); 
-            
+            AdminMainPage adminMainPage = new AdminMainPage();
+            adminMainPage.Show();
+            this.Hide();
         }
 
-        private void updatebutton_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(idtextBox.Text))
-            {
-                MessageBox.Show("Please enter the UserID to update the data.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+       
 
-            try
-            {
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    connection.Open();
-
-                    // Build the update query dynamically based on non-empty fields
-                    string query = "UPDATE AiubLink SET ";
-                    List<string> updates = new List<string>();
-                    SqlCommand command = new SqlCommand();
-
-                    if (!string.IsNullOrWhiteSpace(nametextBox.Text))
-                    {
-                        updates.Add("Name = @Name");
-                        command.Parameters.AddWithValue("@Name", nametextBox.Text.Trim());
-                    }
-
-                    if (!string.IsNullOrWhiteSpace(phonetextBox.Text))
-                    {
-                        updates.Add("Phone = @Phone");
-                        command.Parameters.AddWithValue("@Phone", int.Parse(phonetextBox.Text.Trim()));
-                    }
-
-                    if (pictureBox1.Image != null)
-                    {
-                        updates.Add("Photo = @Photo");
-                        command.Parameters.Add("@Photo", SqlDbType.VarBinary).Value = GetPhotoData();
-                    }
-
-                    if (dateTimePicker1.Value != DateTime.MinValue)
-                    {
-                        updates.Add("DOB = @DOB");
-                        command.Parameters.AddWithValue("@DOB", dateTimePicker1.Value);
-                    }
-
-                    if (statusComboBox.SelectedItem != null)
-                    {
-                        updates.Add("Status = @Status");
-                        command.Parameters.AddWithValue("@Status", statusComboBox.SelectedItem.ToString());
-                    }
-
-                    if (updates.Count == 0)
-                    {
-                        MessageBox.Show("Please enter data in at least one field to update.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
-
-                    query += string.Join(", ", updates) + " WHERE UserID = @UserID";
-                    command.Parameters.AddWithValue("@UserID", idtextBox.Text.Trim());
-                    command.CommandText = query;
-                    command.Connection = connection;
-
-                    int rowsAffected = command.ExecuteNonQuery();
-                    if (rowsAffected > 0)
-                    {
-                        MessageBox.Show("Data updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        SearchData();
-                    }
-                    else
-                    {
-                        MessageBox.Show("No data found for the given UserID.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"An error occurred while updating data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        
-        }
-
-        private byte[] GetPhotoData()
-        {
-            // Convert photo from PictureBox into a byte array
-            if (pictureBox1.Image != null)
-            {
-                using (var ms = new System.IO.MemoryStream())
-                {
-                    pictureBox1.Image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                    return ms.ToArray();
-                }
-            }
-            return null;
-        }
-
-        
-
-        private void InfoDashBoard_Load(object sender, EventArgs e)
-        {
-            // TODO: This line of code loads data into the 'aiubLinkDataSet.AiubLink' table. You can move, or remove it, as needed.
-            this.aiubLinkTableAdapter.Fill(this.aiubLinkDataSet.AiubLink);
-            SearchData();
-            // TODO: This line of code loads data into the 'aiubLinkDataSet.AiubLink' table. You can move, or remove it, as needed.
-            this.aiubLinkTableAdapter.Fill(this.aiubLinkDataSet.AiubLink);
-        }
-
+       
         private void refreshbutton_Click(object sender, EventArgs e)
         {
             SearchData();
-
         }
 
         private void SearchData()
@@ -159,7 +50,7 @@ namespace AiubLink
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    string query = "SELECT * FROM AiubLink WHERE Role = @Role AND Status = @Status";
+                    string query = "SELECT Name, Phone, UserID, Email, Photo, DOB, Password, Role, Status FROM AiubLink WHERE Role = @Role AND Status = @Status";
                     if (!string.IsNullOrWhiteSpace(idtextBox.Text))
                     {
                         query += " AND UserID LIKE @UserID";
@@ -179,7 +70,18 @@ namespace AiubLink
                         DataTable dataTable = new DataTable();
                         adapter.Fill(dataTable);
 
+                        // Clear and bind the DataGridView
+                        dataGridView.Columns.Clear();
+                        dataGridView.AutoGenerateColumns = true;
                         dataGridView.DataSource = dataTable;
+
+                        // Add Edit button column
+                        DataGridViewButtonColumn editButtonColumn = new DataGridViewButtonColumn();
+                        editButtonColumn.HeaderText = "Edit";
+                        editButtonColumn.Text = "Edit";
+                        editButtonColumn.Name = "editButton";
+                        editButtonColumn.UseColumnTextForButtonValue = true;
+                        dataGridView.Columns.Add(editButtonColumn);
                     }
                 }
             }
@@ -190,67 +92,76 @@ namespace AiubLink
         }
 
 
-        private void uploadbutton_Click(object sender, EventArgs e)
+        private void dataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            // Check if the clicked column is the Edit button column
+            if (e.ColumnIndex == dataGridView.Columns["editButton"].Index)
             {
-                openFileDialog.Title = "Select a Photo";
-                openFileDialog.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;*.gif";
+                // Get the selected row's data
+                string userID = dataGridView.Rows[e.RowIndex].Cells["UserID"].Value.ToString();
+                string name = dataGridView.Rows[e.RowIndex].Cells["Name"].Value.ToString();
+                string phone = dataGridView.Rows[e.RowIndex].Cells["Phone"].Value.ToString();
+                string dob = dataGridView.Rows[e.RowIndex].Cells["DOB"].Value.ToString();
+                string status = dataGridView.Rows[e.RowIndex].Cells["Status"].Value.ToString();
+                byte[] photo = dataGridView.Rows[e.RowIndex].Cells["Photo"].Value as byte[];
 
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                // Open the EditInfo form and pass the data
+                EditInfo editForm = new EditInfo(userID, name, phone, dob, status, photo);
+                editForm.ShowDialog();
+
+                // Refresh the DataGridView after closing the EditInfo form
+                SearchData();
+            }
+        }
+
+        private void dataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dataGridView.Columns[e.ColumnIndex].Name == "Photo" && e.Value != DBNull.Value)
+            {
+                try
                 {
-                    // Display the selected image in the PictureBox
-                    pictureBox1.Image = Image.FromFile(openFileDialog.FileName);
+                    // Cast the value to a byte array (assuming it's stored as a byte array in the database)
+                    byte[] imageBytes = (byte[])e.Value;
 
-                    // Optional: You can also store the file path if needed
-                    string selectedFilePath = openFileDialog.FileName;
+                    // Convert the byte array to an image
+                    using (MemoryStream ms = new MemoryStream(imageBytes))
+                    {
+                        Image image = Image.FromStream(ms);
+
+                        // Resize the image to fit the cell size
+                        int cellWidth = dataGridView.Columns[e.ColumnIndex].Width;
+                        int cellHeight = dataGridView.RowTemplate.Height;
+
+                        // Resize the image to fit the cell while keeping aspect ratio (stretching it if needed)
+                        var resizedImage = new Bitmap(image, new Size(cellWidth, cellHeight));
+
+                        // Set the value to the resized image
+                        e.Value = resizedImage;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Handle errors if the image processing fails
+                    MessageBox.Show($"An error occurred while formatting the image: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
-        private void deletebutton_Click(object sender, EventArgs e)
+
+        private void InfoDashBoard_Load(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(idtextBox.Text))
-            {
-                MessageBox.Show("Please enter the UserID to delete the data.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            SearchData();
+            dataGridView.CellFormatting += dataGridView_CellFormatting;
+        }
 
-            try
-            {
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    connection.Open();
+        private void label2_Click(object sender, EventArgs e)
+        {
 
-                    // Confirm the deletion with the user
-                    var result = MessageBox.Show("Are you sure you want to delete this data?", "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                    if (result == DialogResult.Yes)
-                    {
-                        string query = "DELETE FROM AiubLink WHERE UserID = @UserID";
+        }
 
-                        using (SqlCommand command = new SqlCommand(query, connection))
-                        {
-                            command.Parameters.AddWithValue("@UserID", idtextBox.Text.Trim());
+        private void studentdetailslabel_Click(object sender, EventArgs e)
+        {
 
-                            int rowsAffected = command.ExecuteNonQuery();
-
-                            if (rowsAffected > 0)
-                            {
-                                MessageBox.Show("Data deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                SearchData(); // Refresh the data to reflect the deletion
-                            }
-                            else
-                            {
-                                MessageBox.Show("No data found for the given UserID.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"An error occurred while deleting data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
     }
 }

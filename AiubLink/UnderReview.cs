@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace AiubLink
@@ -122,9 +123,26 @@ namespace AiubLink
 
         private void RefreshData()
         {
-            dataGridView1.DataSource = null;
-            LoadData();
+            // Save the current column order before resetting
+            var columnOrder = dataGridView1.Columns.Cast<DataGridViewColumn>()
+                                 .Select(col => col.Name)
+                                 .ToArray();
+
+            dataGridView1.DataSource = null;  // Clear the DataGridView
+
+            LoadData();  // Reload the data
+
+            // Restore the column order
+            foreach (var columnName in columnOrder)
+            {
+                var column = dataGridView1.Columns[columnName];
+                if (column != null)
+                {
+                    column.DisplayIndex = Array.IndexOf(columnOrder, columnName);
+                }
+            }
         }
+
 
         private void exitbutton_Click(object sender, EventArgs e)
         {

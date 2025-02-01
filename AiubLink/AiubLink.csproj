@@ -65,11 +65,6 @@
     <Compile Include="AdminMainPage.Designer.cs">
       <DependentUpon>AdminMainPage.cs</DependentUpon>
     </Compile>
-    <Compile Include="AiubLinkDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AiubLinkDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="AssignmentRetrive.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +94,12 @@
     </Compile>
     <Compile Include="DateTimePickerForm.Designer.cs">
       <DependentUpon>DateTimePickerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditInfo.Designer.cs">
+      <DependentUpon>EditInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="FacultyMainPage.cs">
       <SubType>Form</SubType>
@@ -205,6 +206,9 @@
     <EmbeddedResource Include="DateTimePickerForm.resx">
       <DependentUpon>DateTimePickerForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="EditInfo.resx">
+      <DependentUpon>EditInfo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FacultyMainPage.resx">
       <DependentUpon>FacultyMainPage.cs</DependentUpon>
     </EmbeddedResource>
@@ -254,17 +258,6 @@
     <EmbeddedResource Include="VideoConf.resx">
       <DependentUpon>VideoConf.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="AiubLinkDataSet.xsc">
-      <DependentUpon>AiubLinkDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="AiubLinkDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>AiubLinkDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="AiubLinkDataSet.xss">
-      <DependentUpon>AiubLinkDataSet.xsd</DependentUpon>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

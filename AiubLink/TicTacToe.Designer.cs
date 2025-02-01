@@ -89,6 +89,7 @@
             // resetgamebutton
             // 
             this.resetgamebutton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.resetgamebutton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.resetgamebutton.Location = new System.Drawing.Point(986, 417);
             this.resetgamebutton.Name = "resetgamebutton";
             this.resetgamebutton.Size = new System.Drawing.Size(120, 37);
@@ -101,6 +102,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.label5.Location = new System.Drawing.Point(15, 4);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(81, 23);
@@ -139,6 +141,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.label3.Location = new System.Drawing.Point(15, 5);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(81, 23);
@@ -205,6 +208,7 @@
             // 
             this.tlabel.AutoSize = true;
             this.tlabel.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tlabel.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.tlabel.Location = new System.Drawing.Point(44, 4);
             this.tlabel.Name = "tlabel";
             this.tlabel.Size = new System.Drawing.Size(48, 23);
@@ -346,7 +350,7 @@
             // 
             // exitbutton
             // 
-            this.exitbutton.BackColor = System.Drawing.SystemColors.Control;
+            this.exitbutton.BackColor = System.Drawing.Color.DarkTurquoise;
             this.exitbutton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("exitbutton.BackgroundImage")));
             this.exitbutton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.exitbutton.FlatAppearance.BorderSize = 0;
@@ -362,6 +366,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.DarkTurquoise;
             this.ClientSize = new System.Drawing.Size(1280, 720);
             this.Controls.Add(this.exitbutton);
             this.Controls.Add(this.label7);

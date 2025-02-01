@@ -48,19 +48,19 @@
             // 
             // panel2
             // 
-            this.panel2.BackColor = System.Drawing.Color.SpringGreen;
+            this.panel2.BackColor = System.Drawing.Color.Gold;
             this.panel2.Controls.Add(this.txtStudentName);
             this.panel2.Controls.Add(this.txtStudentID);
-            this.panel2.Location = new System.Drawing.Point(245, 103);
+            this.panel2.Location = new System.Drawing.Point(271, 110);
             this.panel2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(922, 41);
+            this.panel2.Size = new System.Drawing.Size(949, 78);
             this.panel2.TabIndex = 7;
             // 
             // txtStudentName
             // 
             this.txtStudentName.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtStudentName.Location = new System.Drawing.Point(492, 3);
+            this.txtStudentName.Location = new System.Drawing.Point(492, 19);
             this.txtStudentName.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtStudentName.Name = "txtStudentName";
             this.txtStudentName.Size = new System.Drawing.Size(427, 38);
@@ -69,7 +69,7 @@
             // txtStudentID
             // 
             this.txtStudentID.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtStudentID.Location = new System.Drawing.Point(3, 2);
+            this.txtStudentID.Location = new System.Drawing.Point(27, 19);
             this.txtStudentID.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.txtStudentID.Name = "txtStudentID";
             this.txtStudentID.Size = new System.Drawing.Size(459, 38);
@@ -77,7 +77,7 @@
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.panel1.BackColor = System.Drawing.Color.Orange;
             this.panel1.Controls.Add(this.btnViewCourses);
             this.panel1.Controls.Add(this.btnRegisterCourse);
             this.panel1.Location = new System.Drawing.Point(-1, 81);
@@ -114,7 +114,7 @@
             // 
             // uniregpanel1
             // 
-            this.uniregpanel1.BackColor = System.Drawing.Color.CadetBlue;
+            this.uniregpanel1.BackColor = System.Drawing.Color.Green;
             this.uniregpanel1.Controls.Add(this.exitbutton);
             this.uniregpanel1.Location = new System.Drawing.Point(-1, 0);
             this.uniregpanel1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -124,7 +124,7 @@
             // 
             // exitbutton
             // 
-            this.exitbutton.BackColor = System.Drawing.Color.CadetBlue;
+            this.exitbutton.BackColor = System.Drawing.Color.Green;
             this.exitbutton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("exitbutton.BackgroundImage")));
             this.exitbutton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.exitbutton.FlatAppearance.BorderSize = 0;
@@ -138,30 +138,32 @@
             // 
             // coursecheckedListBox
             // 
+            this.coursecheckedListBox.BackColor = System.Drawing.Color.PaleTurquoise;
             this.coursecheckedListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.coursecheckedListBox.FormattingEnabled = true;
-            this.coursecheckedListBox.Location = new System.Drawing.Point(231, 279);
+            this.coursecheckedListBox.Location = new System.Drawing.Point(231, 254);
             this.coursecheckedListBox.Name = "coursecheckedListBox";
-            this.coursecheckedListBox.Size = new System.Drawing.Size(462, 429);
+            this.coursecheckedListBox.Size = new System.Drawing.Size(462, 454);
             this.coursecheckedListBox.TabIndex = 10;
             // 
             // coursedataGridView
             // 
             this.coursedataGridView.AllowUserToAddRows = false;
+            this.coursedataGridView.BackgroundColor = System.Drawing.Color.PaleTurquoise;
             this.coursedataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.coursedataGridView.Location = new System.Drawing.Point(716, 186);
+            this.coursedataGridView.Location = new System.Drawing.Point(716, 254);
             this.coursedataGridView.Name = "coursedataGridView";
             this.coursedataGridView.ReadOnly = true;
             this.coursedataGridView.RowHeadersWidth = 51;
             this.coursedataGridView.RowTemplate.Height = 24;
-            this.coursedataGridView.Size = new System.Drawing.Size(564, 532);
+            this.coursedataGridView.Size = new System.Drawing.Size(552, 454);
             this.coursedataGridView.TabIndex = 11;
             // 
             // lblSemester
             // 
             this.lblSemester.AutoSize = true;
             this.lblSemester.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.lblSemester.Location = new System.Drawing.Point(359, 229);
+            this.lblSemester.Location = new System.Drawing.Point(364, 218);
             this.lblSemester.Name = "lblSemester";
             this.lblSemester.Size = new System.Drawing.Size(64, 25);
             this.lblSemester.TabIndex = 12;
@@ -171,7 +173,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.SandyBrown;
+            this.BackColor = System.Drawing.Color.Honeydew;
             this.ClientSize = new System.Drawing.Size(1280, 720);
             this.Controls.Add(this.lblSemester);
             this.Controls.Add(this.coursedataGridView);

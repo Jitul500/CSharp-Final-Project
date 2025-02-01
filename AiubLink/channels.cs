@@ -40,7 +40,7 @@ namespace AiubLink
 
         private void Meetingbutton_Click(object sender, EventArgs e)
         {
-            VideoConf videoConf = new VideoConf(this);
+            VideoConf videoConf = new VideoConf(this,role);
             videoConf.Show();
             this.Hide();
         }
@@ -124,7 +124,7 @@ namespace AiubLink
             if (role == "Faculty")
             {
                 // Open the AssignmentRetrive form for faculty
-                AssignmentRetrive assignmentRetriveForm = new AssignmentRetrive(this);
+                AssignmentRetrive assignmentRetriveForm = new AssignmentRetrive(this, selectedChannel);
                 assignmentRetriveForm.Show();
                 this.Hide();
             }

@@ -30,6 +30,7 @@ namespace AiubLink
         private void AdminMainPage_Load(object sender, EventArgs e)
         {
             UpdateCounts();
+           
 
         }
 
@@ -141,6 +142,16 @@ namespace AiubLink
             UnderReview underReview = new UnderReview(this, "Student");
             underReview.Show();
             this.Hide();
+        }
+
+        private void stnum2label_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

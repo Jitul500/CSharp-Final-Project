@@ -42,7 +42,7 @@
             // 
             this.monthCalendar1.BackColor = System.Drawing.Color.Gainsboro;
             this.monthCalendar1.CalendarDimensions = new System.Drawing.Size(2, 2);
-            this.monthCalendar1.Location = new System.Drawing.Point(17, 110);
+            this.monthCalendar1.Location = new System.Drawing.Point(114, 90);
             this.monthCalendar1.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.monthCalendar1.Name = "monthCalendar1";
             this.monthCalendar1.TabIndex = 0;
@@ -51,20 +51,21 @@
             // listBoxReminders
             // 
             this.listBoxReminders.BackColor = System.Drawing.Color.LightGoldenrodYellow;
-            this.listBoxReminders.Font = new System.Drawing.Font("Microsoft YaHei", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listBoxReminders.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listBoxReminders.FormattingEnabled = true;
-            this.listBoxReminders.ItemHeight = 36;
-            this.listBoxReminders.Location = new System.Drawing.Point(730, 231);
+            this.listBoxReminders.ItemHeight = 27;
+            this.listBoxReminders.Location = new System.Drawing.Point(775, 90);
             this.listBoxReminders.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.listBoxReminders.Name = "listBoxReminders";
-            this.listBoxReminders.Size = new System.Drawing.Size(538, 436);
+            this.listBoxReminders.Size = new System.Drawing.Size(453, 517);
             this.listBoxReminders.TabIndex = 2;
             // 
             // btnAddReminder
             // 
-            this.btnAddReminder.BackColor = System.Drawing.Color.GreenYellow;
+            this.btnAddReminder.BackColor = System.Drawing.Color.ForestGreen;
             this.btnAddReminder.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddReminder.Location = new System.Drawing.Point(17, 630);
+            this.btnAddReminder.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnAddReminder.Location = new System.Drawing.Point(548, 630);
             this.btnAddReminder.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnAddReminder.Name = "btnAddReminder";
             this.btnAddReminder.Size = new System.Drawing.Size(162, 46);
@@ -77,7 +78,8 @@
             // 
             this.btnDeleteReminder.BackColor = System.Drawing.Color.Crimson;
             this.btnDeleteReminder.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDeleteReminder.Location = new System.Drawing.Point(401, 621);
+            this.btnDeleteReminder.ForeColor = System.Drawing.Color.White;
+            this.btnDeleteReminder.Location = new System.Drawing.Point(1066, 629);
             this.btnDeleteReminder.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnDeleteReminder.Name = "btnDeleteReminder";
             this.btnDeleteReminder.Size = new System.Drawing.Size(162, 46);
@@ -102,11 +104,12 @@
             // 
             // clearbutton
             // 
-            this.clearbutton.BackColor = System.Drawing.Color.PaleTurquoise;
-            this.clearbutton.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.clearbutton.Location = new System.Drawing.Point(1177, 135);
+            this.clearbutton.BackColor = System.Drawing.Color.Gold;
+            this.clearbutton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.clearbutton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.clearbutton.Location = new System.Drawing.Point(104, 628);
             this.clearbutton.Name = "clearbutton";
-            this.clearbutton.Size = new System.Drawing.Size(75, 34);
+            this.clearbutton.Size = new System.Drawing.Size(117, 48);
             this.clearbutton.TabIndex = 11;
             this.clearbutton.Text = "Clear";
             this.clearbutton.UseVisualStyleBackColor = false;
@@ -114,13 +117,13 @@
             // 
             // txtReminder
             // 
-            this.txtReminder.BackColor = System.Drawing.Color.Chartreuse;
+            this.txtReminder.BackColor = System.Drawing.Color.GreenYellow;
             this.txtReminder.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtReminder.Location = new System.Drawing.Point(730, 135);
+            this.txtReminder.Location = new System.Drawing.Point(101, 498);
+            this.txtReminder.Multiline = true;
             this.txtReminder.Name = "txtReminder";
-            this.txtReminder.Size = new System.Drawing.Size(441, 34);
+            this.txtReminder.Size = new System.Drawing.Size(609, 110);
             this.txtReminder.TabIndex = 12;
-            this.txtReminder.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // CalendarForm
             // 

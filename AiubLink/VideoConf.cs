@@ -14,15 +14,25 @@ namespace GoogleMeetApp
     public partial class VideoConf : Form
     {
         private Form previousForm;
-        public VideoConf(Form previousForm)
+        private string role;
+        public VideoConf(Form previousForm, string role)
         {
             InitializeComponent();
             this.previousForm = previousForm;
+            this.role = role;
         }
 
         private void VideoConf_Load(object sender, EventArgs e)
         {
-
+            if(role == "Student")
+            {
+                panel1.Visible = false;
+            }
+          
+            else
+            {
+                panel1.Visible = true;
+            }
         }
 
         private void btnJoin_Click(object sender, EventArgs e)
@@ -52,6 +62,11 @@ namespace GoogleMeetApp
         {
             previousForm.Show();
             this.Close();
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -10,62 +10,25 @@ namespace AiubLink
     {
         private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=E:\CS Final Project\AiubLink\DataBase\AiubLink.mdf;Integrated Security=True;Connect Timeout=30;Encrypt=false";
         private Form previousForm;
+        private string selectedChannel;
 
-        public AssignmentRetrive(Form previousForm)
+        public AssignmentRetrive(Form previousForm, string selectedChannel)
         {
             InitializeComponent();
             this.previousForm = previousForm;
+            this.selectedChannel = selectedChannel;
         }
 
         private void AssignmentRetrive_Load(object sender, EventArgs e)
         {
-            LoadChannels();
             SetupDataGridView();
-        }
-
-        private void LoadChannels()
-        {
-            string query = @"
-                SELECT ChannelName 
-                FROM Channels 
-                WHERE FacultyID = (SELECT UserID FROM AiubLink WHERE Role = 'Faculty')";
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            ChannelComboBox.Items.Clear();
-                            while (reader.Read())
-                            {
-                                ChannelComboBox.Items.Add(reader["ChannelName"].ToString());
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error loading channels: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-
-        private void ChannelComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            string selectedChannel = ChannelComboBox.SelectedItem.ToString();
             LoadAssignments(selectedChannel);
             LoadSubmissions(selectedChannel);
         }
 
         private void LoadAssignments(string channelName)
         {
-            string query = @"
-                SELECT AssignmentID, Description, DueTime 
-                FROM Assignments 
-                WHERE ChannelID = (SELECT ChannelID FROM Channels WHERE ChannelName = @ChannelName) AND IsActive = 1";
+            string query = @"SELECT AssignmentID, Description, DueTime FROM Assignments WHERE ChannelID = (SELECT ChannelID FROM Channels WHERE ChannelName = @ChannelName) AND IsActive = 1";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -92,11 +55,7 @@ namespace AiubLink
 
         private void LoadSubmissions(string channelName)
         {
-            string query = @"
-        SELECT s.UserID, u.Name, s.AssignmentID, s.SubmittedAt, s.FilePath
-        FROM Submissions s
-        INNER JOIN AiubLink u ON s.UserID = u.UserID
-        WHERE s.ChannelID = (SELECT ChannelID FROM Channels WHERE ChannelName = @ChannelName)";
+            string query = @"SELECT s.UserID, u.Name, s.AssignmentID, s.SubmittedAt, s.FilePath FROM Submissions s INNER JOIN AiubLink u ON s.UserID = u.UserID WHERE s.ChannelID = (SELECT ChannelID FROM Channels WHERE ChannelName = @ChannelName)";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -112,7 +71,6 @@ namespace AiubLink
                             adapter.Fill(dataTable);
                             SubmissionsDataGridView.DataSource = dataTable;
 
-                            // Add the "Show" button column if it doesn't already exist
                             if (!SubmissionsDataGridView.Columns.Contains("Show"))
                             {
                                 DataGridViewButtonColumn showButton = new DataGridViewButtonColumn
@@ -142,7 +100,6 @@ namespace AiubLink
 
                 if (!string.IsNullOrEmpty(filePath))
                 {
-                    // Check if the file exists before trying to open it
                     if (File.Exists(filePath))
                     {
                         try
@@ -166,15 +123,15 @@ namespace AiubLink
             }
         }
 
-
-        // Adds the "Extend Time" button to the DataGridView
         private void SetupDataGridView()
         {
-            DataGridViewButtonColumn extendTimeButton = new DataGridViewButtonColumn();
-            extendTimeButton.Name = "ExtendTime";
-            extendTimeButton.HeaderText = "Extend Time";
-            extendTimeButton.Text = "Extend Time";
-            extendTimeButton.UseColumnTextForButtonValue = true;
+            DataGridViewButtonColumn extendTimeButton = new DataGridViewButtonColumn
+            {
+                Name = "ExtendTime",
+                HeaderText = "Extend Time",
+                Text = "Extend Time",
+                UseColumnTextForButtonValue = true
+            };
             AssignmentsDataGridView.Columns.Add(extendTimeButton);
         }
 
@@ -182,16 +139,13 @@ namespace AiubLink
         {
             if (e.RowIndex >= 0 && e.ColumnIndex == AssignmentsDataGridView.Columns["ExtendTime"].Index)
             {
-                // Get the assignment ID from the selected row
                 int assignmentID = Convert.ToInt32(AssignmentsDataGridView.Rows[e.RowIndex].Cells["AssignmentID"].Value);
 
-                // Check if the DueTime is DBNull before converting
                 object dueTimeValue = AssignmentsDataGridView.Rows[e.RowIndex].Cells["DueTime"].Value;
                 DateTime currentDueTime;
 
                 if (dueTimeValue == DBNull.Value)
                 {
-                    // Handle the case where DueTime is missing in the database
                     MessageBox.Show("No due time is set for this assignment.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -200,34 +154,19 @@ namespace AiubLink
                     currentDueTime = Convert.ToDateTime(dueTimeValue);
                 }
 
-                // Open the DateTimePickerForm to allow the faculty to select the new due time
                 DateTimePickerForm dateTimeForm = new DateTimePickerForm(currentDueTime);
-
-                // Subscribe to the DueTimeUpdated event
                 dateTimeForm.DueTimeUpdated += (newDueTime) =>
                 {
-                    // Update the assignment due time in the database
                     UpdateAssignmentDueTime(assignmentID, newDueTime);
-
-                    // Refresh the grid after the update
-                    LoadAssignments(ChannelComboBox.SelectedItem.ToString());
+                    LoadAssignments(selectedChannel);
                 };
-
-                // Show the DateTimePickerForm
                 dateTimeForm.ShowDialog();
             }
         }
 
-
-
-
-        // Updates the DueTime of an assignment
         private void UpdateAssignmentDueTime(int assignmentID, DateTime newDueTime)
         {
-            string query = @"
-                UPDATE Assignments
-                SET DueTime = @NewDueTime
-                WHERE AssignmentID = @AssignmentID";
+            string query = "UPDATE Assignments SET DueTime = @NewDueTime WHERE AssignmentID = @AssignmentID";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -241,7 +180,7 @@ namespace AiubLink
                         command.ExecuteNonQuery();
                     }
                     MessageBox.Show("Due time extended successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadAssignments(ChannelComboBox.SelectedItem.ToString());  // Reload assignments
+                    LoadAssignments(selectedChannel);
                 }
                 catch (Exception ex)
                 {
@@ -249,8 +188,6 @@ namespace AiubLink
                 }
             }
         }
-
-
 
         private void exitbutton_Click(object sender, EventArgs e)
         {
@@ -260,18 +197,14 @@ namespace AiubLink
 
         private void CreateAssignmentButton_Click(object sender, EventArgs e)
         {
-            if (ChannelComboBox.SelectedItem == null || string.IsNullOrEmpty(DescriptionTextBox.Text) || DueTimeDateTimePicker.Value == null)
+            if (string.IsNullOrEmpty(DescriptionTextBox.Text) || DueTimeDateTimePicker.Value == null)
             {
-                MessageBox.Show("Please select a channel, provide a description, and set a due time for the assignment.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please provide a description and set a due time for the assignment.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            // Get the selected channel, assignment description, and due time
-            string selectedChannel = ChannelComboBox.SelectedItem.ToString();
             string description = DescriptionTextBox.Text;
             DateTime dueTime = DueTimeDateTimePicker.Value;
-
-            // Get the ChannelID based on the selected channel name
             int channelID = GetChannelID(selectedChannel);
 
             if (channelID == -1)
@@ -280,10 +213,7 @@ namespace AiubLink
                 return;
             }
 
-            // Insert the new assignment into the database
-            string query = @"
-        INSERT INTO Assignments (ChannelID, Description, DueTime, IsActive)
-        VALUES (@ChannelID, @Description, @DueTime, 1)";
+            string query = "INSERT INTO Assignments (ChannelID, Description, DueTime, IsActive) VALUES (@ChannelID, @Description, @DueTime, 1)";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -297,10 +227,7 @@ namespace AiubLink
                         command.Parameters.AddWithValue("@DueTime", dueTime);
                         command.ExecuteNonQuery();
                     }
-
                     MessageBox.Show("Assignment created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    // Reload the assignments after creating a new one
                     LoadAssignments(selectedChannel);
                 }
                 catch (Exception ex)
@@ -310,7 +237,6 @@ namespace AiubLink
             }
         }
 
-        // Helper method to get ChannelID based on the channel name
         private int GetChannelID(string channelName)
         {
             string query = "SELECT ChannelID FROM Channels WHERE ChannelName = @ChannelName";
@@ -323,15 +249,7 @@ namespace AiubLink
                     {
                         command.Parameters.AddWithValue("@ChannelName", channelName);
                         object result = command.ExecuteScalar();
-
-                        if (result != null)
-                        {
-                            return Convert.ToInt32(result);
-                        }
-                        else
-                        {
-                            return -1; // Channel not found
-                        }
+                        return result != null ? Convert.ToInt32(result) : -1;
                     }
                 }
                 catch (Exception ex)
@@ -342,5 +260,14 @@ namespace AiubLink
             }
         }
 
+        private void ReferenceFileTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
